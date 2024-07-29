@@ -145,6 +145,18 @@ class TestGraphParsing(unittest.TestCase):
         self.assertEqual(len(graph), 6)
         self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 1)
 
+    def test_parsing_ox_trig_bulk_load(self):
+        graph = rdflib.Dataset(store="Oxigraph")
+        graph.parse(_TEST_DIR / "data/test.trig", format="ox-trig", transactional=False)
+        self.assertEqual(len(graph), 6)
+        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 1)
+
+    def test_parsing_ox_trig_load(self):
+        graph = rdflib.Dataset(store="Oxigraph")
+        graph.parse(_TEST_DIR / "data/test.trig", format="ox-trig", transactional=True)
+        self.assertEqual(len(graph), 6)
+        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

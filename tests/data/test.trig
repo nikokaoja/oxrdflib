@@ -1,0 +1,12 @@
+@prefix ns1: <http://example.com/> .
+@prefix ns2: <http://xmlns.com/foaf/0.1/> .
+
+ns1:graph1 {
+    <http://example.org/stuff/1.0/document> a ns2:Document ;
+        ns2:creator <http://example.org/stuff/1.0/creator> ;
+        ns2:title "Example Document" .
+
+    <http://example.org/stuff/1.0/creator> a ns2:Person ;
+        ns2:mbox <mailto:johndoe@example.org> ;
+        ns2:name "John Doe" .
+}

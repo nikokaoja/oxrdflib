@@ -139,4 +139,6 @@ def ox_to_rdflib_type(ox_format: str) -> str:
         return "xml"
     if ox_format in ("ox-nquads", "ox-nq"):
         return "nquads"
+    if ox_format == "ox-trig":
+        return "trig"
     raise ValueError(f"Unsupported Oxigraph type: {ox_format}")

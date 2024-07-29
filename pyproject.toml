@@ -43,6 +43,7 @@ ox-nt = "oxrdflib.parser:OxigraphNTriplesParser"
 ox-xml = "oxrdflib.parser:OxigraphRdfXmlParser"
 ox-nquads = "oxrdflib.parser:OxigraphNQuadsParser"
 ox-nq = "oxrdflib.parser:OxigraphNQuadsParser"
+ox-trig = "oxrdflib.parser:OxigraphTriGParser"
 
 
 [project.urls]

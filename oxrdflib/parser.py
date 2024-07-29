@@ -34,7 +34,7 @@ class OxigraphParser(Parser):
         **kwargs: Any,
     ) -> None:
         if encoding not in (None, "utf-8"):
-            raise ParserError("N3/Turtle files are always utf-8 encoded, I was passed: %s" % encoding)
+            raise ParserError("N3/Turtle/Trig files are always utf-8 encoded, I was passed: %s" % encoding)
 
         if not isinstance(sink.store, OxigraphStore):
             warnings.warn(
@@ -47,7 +47,7 @@ class OxigraphParser(Parser):
 
         else:
             base_iri = sink.absolutize(source.getPublicId() or source.getSystemId() or "")
-            graph_identifier = to_ox(sink.identifier) if format not in ("ox-nq", "ox-nquads") else None
+            graph_identifier = to_ox(sink.identifier) if format not in ("ox-nq", "ox-nquads", "ox-trig") else None
 
             if isinstance(source, FileInputSource):
                 input = source.file
@@ -125,8 +125,8 @@ class OxigraphTriGParser(OxigraphParser):
         self,
         source: InputSource,
         sink: Graph,
-        format: str,
+        format: str = "ox-trig",
         encoding: Optional[str] = "utf-8",
         **kwargs: Any,
     ) -> None:
-        raise NotImplementedError("TriG parser is not supported yet")
+        super().parse(source, sink, format, encoding, **kwargs)
