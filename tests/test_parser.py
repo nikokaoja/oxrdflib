@@ -12,8 +12,14 @@ _NAMEDGRAPH_QUERY = """SELECT DISTINCT ?g WHERE {
   }
 }"""
 
+_NAMEDGRAPH_TRIPLE_QUERY = """SELECT DISTINCT ?s ?p ?o WHERE {{
+  GRAPH <{namedgraph}> {{
+    ?s ?p ?o .
+  }}
+}}"""
 
-class TestGraphParsing(unittest.TestCase):
+
+class TestTripleParsing(unittest.TestCase):
     def test_parsing_ox_turtle_bulk_load(self):
         graph = rdflib.Graph(store="Oxigraph")
         graph.parse(_TEST_DIR / "data/test.ttl", format="ox-turtle", transactional=False)
@@ -133,29 +139,95 @@ class TestGraphParsing(unittest.TestCase):
         )
         self.assertEqual(len(graph), 6)
 
+
+class TestQuadParsing(unittest.TestCase):
     def test_parsing_ox_nquads_bulk_load(self):
         graph = rdflib.Dataset(store="Oxigraph")
         graph.parse(_TEST_DIR / "data/test.nq", format="ox-nquads", transactional=False)
         self.assertEqual(len(graph), 6)
-        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 1)
+        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 4)
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="urn:x-rdflib:default"))),
+            2,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph3"))),
+            1,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph2"))),
+            1,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph1"))),
+            2,
+        )
 
     def test_parsing_ox_nquads_load(self):
         graph = rdflib.Dataset(store="Oxigraph")
         graph.parse(_TEST_DIR / "data/test.nq", format="ox-nquads", transactional=True)
         self.assertEqual(len(graph), 6)
-        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 1)
+        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 4)
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="urn:x-rdflib:default"))),
+            2,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph3"))),
+            1,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph2"))),
+            1,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph1"))),
+            2,
+        )
 
     def test_parsing_ox_trig_bulk_load(self):
         graph = rdflib.Dataset(store="Oxigraph")
         graph.parse(_TEST_DIR / "data/test.trig", format="ox-trig", transactional=False)
         self.assertEqual(len(graph), 6)
-        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 1)
+        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 4)
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="urn:x-rdflib:default"))),
+            2,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph3"))),
+            1,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph2"))),
+            1,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph1"))),
+            2,
+        )
 
     def test_parsing_ox_trig_load(self):
         graph = rdflib.Dataset(store="Oxigraph")
         graph.parse(_TEST_DIR / "data/test.trig", format="ox-trig", transactional=True)
         self.assertEqual(len(graph), 6)
-        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 1)
+        self.assertEqual(len(graph.query(_NAMEDGRAPH_QUERY)), 4)
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="urn:x-rdflib:default"))),
+            2,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph3"))),
+            1,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph2"))),
+            1,
+        )
+        self.assertEqual(
+            len(graph.query(_NAMEDGRAPH_TRIPLE_QUERY.format(namedgraph="http://example.com/graph1"))),
+            2,
+        )
 
 
 if __name__ == "__main__":
